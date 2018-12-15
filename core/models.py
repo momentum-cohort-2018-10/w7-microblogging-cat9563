@@ -31,6 +31,13 @@ class Blog(models.Model):
     title = models.TextField(
         validators=[MinValueValidator(2), MaxValueValidator(280)],
     )
-    description = models.CharField(max_length=255)
-    body = models.TextField(blank=True, null=True)
     authors = models.ManyToManyField(Author, related_name="blogs")
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+class BlogNote(models.Model):
+    blog = models.ForeignKey(to=Blog, on_delete=models.CASCADE, related_name="notes")
+    body = models.TextField()
+    description = models.CharField(max_length=255)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
